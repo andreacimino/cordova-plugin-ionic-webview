@@ -292,6 +292,13 @@ static void * KVOContext = &KVOContext;
 }
 
 - (void)onAppWillEnterForeground:(NSNotification *)notification {
+   [self.webServer stop];
+   NSDictionary *options = @{
+                                  GCDWebServerOption_Port: @(8080),
+                                  GCDWebServerOption_BindToLocalhost: @(YES),
+                                  GCDWebServerOption_ServerName: @"Ionic"
+                                  };
+        [self.webServer startWithOptions:options error:nil];
     if ([self shouldReloadWebView]) {
         NSLog(@"%@", @"CDVWKWebViewEngine reloading!");
         [(WKWebView*)_engineWebView reload];
